@@ -18,14 +18,13 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
     @ManyToOne
-    @ToString.Exclude
-    private Integer productsId;
+    @JoinColumn(name = "products_id")
+    private Products products;
 
-    @Column
     @ManyToOne
-    private Integer ordersId;
+    @JoinColumn(name = "orders_id")
+    private Orders orders;
 
     @Column
     private Integer price;

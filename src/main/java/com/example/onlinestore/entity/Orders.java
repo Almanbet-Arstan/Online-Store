@@ -19,10 +19,9 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
     @ManyToOne
-    @ToString.Exclude
-    private Integer clientsId;
+    @JoinColumn(name = "clients_id")
+    private Clients clients;
 
     @Column
     private Date dateOfPlacement;
@@ -30,9 +29,9 @@ public class Orders {
     @Column
     private Date dateOfCompletion;
 
-    @Column
     @ManyToOne
-    private Integer deliveryId;
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
 
     @Column
     private Integer priceOfDelivery;
