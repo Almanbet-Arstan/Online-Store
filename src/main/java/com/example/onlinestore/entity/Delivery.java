@@ -9,18 +9,16 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Delivery {
+public class Delivery extends BaseEntity{
+    @Column(name = "address")
+    private String address;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
-    @Column
-    private String name;
-
-    @Column
-    private String telephone;
+    @Column(name = "price_of_delivery")
+    private Integer priceOfDelivery;
 }

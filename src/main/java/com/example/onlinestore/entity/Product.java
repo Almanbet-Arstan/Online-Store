@@ -9,21 +9,10 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Products {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column
+public class Product extends BaseEntity{
     private String name;
-
-    @Column
     private Integer price;
-
-    @Column
-    private Boolean isWaiting;
 }
