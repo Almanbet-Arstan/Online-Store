@@ -8,4 +8,4 @@
 5.  Способ оплаты.
 6.  Качество товара.
 
-![image](https://user-images.githubusercontent.com/72572980/138286317-087b17fa-a540-40d5-acbb-b4eb1e50bc05.png)
+![Untitled2](https://user-images.githubusercontent.com/72572980/139717799-83e16d15-084c-4c39-8c8b-4a849227c325.png)
