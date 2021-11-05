@@ -19,6 +19,6 @@ public class User extends BaseEntity{
     @Column(name = "password")
     private String password;
 
-    @Column(name = "status")
-    private Long status;
+    @Column(name = "is_active")
+    private Long isActive;
 }

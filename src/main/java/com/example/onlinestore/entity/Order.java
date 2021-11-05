@@ -24,6 +24,6 @@ public class Order extends BaseEntity{
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    @OneToMany
+    @ManyToMany
     private List<Product> products;
 }
