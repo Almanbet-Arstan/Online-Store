@@ -2,11 +2,12 @@ package com.example.onlinestore.service;
 
 import com.example.onlinestore.entity.User;
 import com.example.onlinestore.model.UserAuthModel;
+import com.example.onlinestore.model.UserModel;
 
 import java.util.List;
 
 public interface UserService {
-    User createUser(User user);
+    User createUser(UserModel userModel);
     List<User> getAll();
     User getById(Long id);
     User updateClient(User user);

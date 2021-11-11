@@ -21,4 +21,8 @@ public class Delivery extends BaseEntity{
 
     @Column(name = "price_of_delivery")
     private Integer priceOfDelivery;
+
+    @OneToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 }

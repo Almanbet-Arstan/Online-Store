@@ -36,6 +36,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         if (delivery.getAddress() != null) deliveryForUpdate.setAddress(delivery.getAddress());
         if (delivery.getPhoneNumber() != null) deliveryForUpdate.setPhoneNumber(delivery.getPhoneNumber());
         if (delivery.getPriceOfDelivery() != null) deliveryForUpdate.setPriceOfDelivery(delivery.getPriceOfDelivery());
+        if (delivery.getOrder() != null) deliveryForUpdate.setOrder(delivery.getOrder());
 
         return deliveryRepository.save(deliveryForUpdate);
     }

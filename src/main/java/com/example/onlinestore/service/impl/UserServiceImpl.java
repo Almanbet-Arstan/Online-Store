@@ -1,9 +1,11 @@
 package com.example.onlinestore.service.impl;
 
 import antlr.StringUtils;
+import com.example.onlinestore.converter.UserConverter;
 import com.example.onlinestore.entity.User;
 import com.example.onlinestore.entity.UserRole;
 import com.example.onlinestore.model.UserAuthModel;
+import com.example.onlinestore.model.UserModel;
 import com.example.onlinestore.repository.UserRepository;
 import com.example.onlinestore.repository.UserRoleRepository;
 import com.example.onlinestore.service.UserService;
@@ -12,8 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -23,26 +23,18 @@ public class UserServiceImpl implements UserService {
     
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserRoleRepository userRoleRepository;
     
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserConverter userConverter;
+
     @Override
-    public User createUser(User user) {
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        System.out.println(encodedPassword);
-        user.setPassword(encodedPassword);
-        userRepository.save(user);
-
-        UserRole userRole = new UserRole();
-        userRole.setRoleName("ROLE_USER");
-        userRole.setUser(user);
-        userRoleRepository.save(userRole);
-
-        return user;
+    public User createUser(UserModel userModel) {
+        String encodedPassword = passwordEncoder.encode(userModel.getPassword());
+        userModel.setPassword(encodedPassword);
+        return userRepository.save(userConverter.convertFromModel(userModel));
     }
 
     @Override

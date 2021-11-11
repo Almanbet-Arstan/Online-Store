@@ -12,8 +12,4 @@ import javax.persistence.*;
 public class UserRole extends BaseEntity{
     @Column(name = "role_name")
     private String roleName;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }

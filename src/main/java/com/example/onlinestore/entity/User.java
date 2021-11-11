@@ -2,9 +2,7 @@ package com.example.onlinestore.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -21,4 +19,8 @@ public class User extends BaseEntity{
 
     @Column(name = "is_active")
     private Long isActive;
+
+    @ManyToOne
+    @JoinColumn(name = "user_role_id")
+    private UserRole userRole;
 }

@@ -35,8 +35,7 @@ public class OrderServiceImpl implements OrderService {
 
         if (order.getCreateDate() != null) orderForUpdate.setCreateDate(order.getCreateDate());
         if (order.getUser() != null) orderForUpdate.setUser(order.getUser());
-        if (order.getDelivery() != null) orderForUpdate.setDelivery(order.getDelivery());
-        if (order.getProducts() != null) orderForUpdate.setProducts(order.getProducts());
+        if (order.getTotalSum() != null) orderForUpdate.setTotalSum(order.getTotalSum());
 
         return orderRepository.save(orderForUpdate);
     }

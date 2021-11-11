@@ -20,10 +20,5 @@ public class Order extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "delivery_id")
-    private Delivery delivery;
-
-    @ManyToMany
-    private List<Product> products;
+    private Double totalSum;
 }

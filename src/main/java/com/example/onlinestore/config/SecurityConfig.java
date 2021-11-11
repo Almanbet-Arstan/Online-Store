@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select full_name, password, is_active from users where full_name = ?")
-                .authoritiesByUsernameQuery("select u.full_name , ur.role_name as role from user_roles ur inner join users u on ur.user_id = u.id where u.full_name = ? and u.is_active=1");
+                .authoritiesByUsernameQuery("select u.full_name , ur.role_name as role from user_roles ur inner join users u on ur.id = u.user_role_id where u.full_name = ? and u.is_active=1");
     }
 
     @Bean
