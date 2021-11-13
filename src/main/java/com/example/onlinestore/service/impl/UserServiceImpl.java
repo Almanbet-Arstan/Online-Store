@@ -4,6 +4,7 @@ import antlr.StringUtils;
 import com.example.onlinestore.converter.UserConverter;
 import com.example.onlinestore.entity.User;
 import com.example.onlinestore.entity.UserRole;
+import com.example.onlinestore.exception.ApiFailException;
 import com.example.onlinestore.model.UserAuthModel;
 import com.example.onlinestore.model.UserModel;
 import com.example.onlinestore.repository.UserRepository;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow( () -> new ApiFailException("Не удалось найти пользователя по id: " + id));
     }
 
     @Override

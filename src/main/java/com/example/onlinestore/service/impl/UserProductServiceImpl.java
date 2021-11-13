@@ -1,24 +1,30 @@
 package com.example.onlinestore.service.impl;
 
+import com.example.onlinestore.converter.UserProductConverter;
+import com.example.onlinestore.entity.Product;
 import com.example.onlinestore.entity.UserProduct;
-import com.example.onlinestore.entity.UserProduct;
-import com.example.onlinestore.entity.UserProduct;
+import com.example.onlinestore.model.UserProductModel;
 import com.example.onlinestore.repository.UserProductRepository;
 import com.example.onlinestore.service.UserProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserProductServiceImpl implements UserProductService {
 
     @Autowired
     UserProductRepository userProductRepository;
 
+    @Autowired
+    private UserProductConverter userProductConverter;
+
 
     @Override
-    public UserProduct createUserProduct(UserProduct userProduct) {
-        return userProductRepository.save(userProduct);
+    public UserProduct createUserProduct(UserProductModel userProductModel) {
+        return userProductRepository.save(userProductConverter.convertFromModel(userProductModel));
     }
 
     @Override
@@ -50,4 +56,10 @@ public class UserProductServiceImpl implements UserProductService {
 
         return userProductForDelete;
     }
+
+    @Override
+    public List<Product> findUserProductsByOrderId(Long id) {
+        return userProductRepository.findUserProductsByOrderId(id).stream().map(x -> x.getProduct()).collect(Collectors.toList());
+    }
+
 }

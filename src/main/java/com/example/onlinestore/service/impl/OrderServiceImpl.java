@@ -1,9 +1,17 @@
 package com.example.onlinestore.service.impl;
 
+import com.example.onlinestore.converter.OrderConverter;
+import com.example.onlinestore.converter.UserProductConverter;
 import com.example.onlinestore.entity.Order;
 import com.example.onlinestore.entity.Product;
+import com.example.onlinestore.entity.User;
+import com.example.onlinestore.entity.UserProduct;
+import com.example.onlinestore.model.ItemsForBuyModel;
+import com.example.onlinestore.model.OrderModel;
 import com.example.onlinestore.repository.OrderRepository;
 import com.example.onlinestore.service.OrderService;
+import com.example.onlinestore.service.UserProductService;
+import com.example.onlinestore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +22,21 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private UserProductService userProductService;
+
+    @Autowired
+    private OrderConverter orderConverter;
+
+    @Autowired
+    private UserProductConverter userProductConverter;
+
+    @Autowired
+    private UserService userService;
+
     @Override
-    public Order createOrder(Order order) {
-        return orderRepository.save(order);
+    public Order createOrder(OrderModel orderModel) {
+        return orderRepository.save(orderConverter.convertFromModel(orderModel));
     }
 
     @Override
@@ -46,5 +66,35 @@ public class OrderServiceImpl implements OrderService {
         if (orderForDelete != null) orderRepository.delete(orderForDelete);
 
         return orderForDelete;
+    }
+
+    @Override
+    public Order buyItems(ItemsForBuyModel itemsForBuyModel) {
+        Order order = new Order();
+        order.setTotalSum(0.0);
+
+        User user = userService.getById(itemsForBuyModel.getUserId());//получить по userId
+        order.setUser(user);
+
+        for(Product product : itemsForBuyModel.getProductList()) {
+            order.setTotalSum(order.getTotalSum() + product.getPrice());
+        }
+        orderRepository.save(order);
+
+        for(Product product : itemsForBuyModel.getProductList()) {
+            UserProduct userProduct = new UserProduct();
+
+            userProduct.setProduct(product);
+            userProduct.setUser(user);
+            userProduct.setOrder(order);
+
+            userProductService.createUserProduct(userProductConverter.convertFromEntity(userProduct));
+        }
+
+//        считаем сумму for each product in products
+//        orderService.save(order) -- сохранили order и теперь знаем его ID
+//        опять проходимся по продуктам и сохраняем в таблицу user_products, userId, product.getId, order.getId
+
+        return order;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.onlinestore.controller;
 
+import com.example.onlinestore.entity.Product;
 import com.example.onlinestore.entity.UserProduct;
+import com.example.onlinestore.model.UserProductModel;
 import com.example.onlinestore.service.UserProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +25,14 @@ public class UserProductController {
         return userProductService.getById(id);
     }
 
+    @GetMapping("/order/{id}")
+    public List<Product> findUserProductsByOrderId (@PathVariable Long id){
+        return userProductService.findUserProductsByOrderId(id);
+    }
+
     @PostMapping
-    public UserProduct createUserProduct(@RequestBody UserProduct userProduct){
-        return userProductService.createUserProduct(userProduct);
+    public UserProduct createUserProduct(@RequestBody UserProductModel userProductModel){
+        return userProductService.createUserProduct(userProductModel);
     }
 
     @PutMapping

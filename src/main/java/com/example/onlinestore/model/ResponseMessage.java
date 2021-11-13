@@ -13,22 +13,31 @@ import org.springframework.http.HttpStatus;
 public class ResponseMessage<T> {
     private T value;
 
-    private Integer status;
+    private String status;
 
-    private String details;
+    private String message;
 
     public ResponseMessage<T> prepareSuccessMessage(T value){
-        ResponseMessage<T> successMessage = new ResponseMessage<>();
-        successMessage.setValue(value);
-        successMessage.setStatus(HttpStatus.OK.value());
-        successMessage.setDetails("");
-        return successMessage;
+        return ResponseMessage.<T>builder()
+                .value(value)
+                .message(null)
+                .status("OK")
+                .build();
     }
 
-    public ResponseMessage<T> prepareFailMessage(Integer status, String details){
-        ResponseMessage<T> failMessage = new ResponseMessage<>();
-        failMessage.setStatus(status);
-        failMessage.setDetails(details);
-        return failMessage;
+    public ResponseMessage<T> prepareFailMessage(T value){
+        return ResponseMessage.<T>builder()
+                .value(value)
+                .message(null)
+                .status("FAIL")
+                .build();
+    }
+
+    public ResponseMessage<T> prepareErrorMessage(T value){
+        return ResponseMessage.<T>builder()
+                .value(value)
+                .message(null)
+                .status("ERROR")
+                .build();
     }
 }

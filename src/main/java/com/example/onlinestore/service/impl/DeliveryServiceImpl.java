@@ -1,6 +1,8 @@
 package com.example.onlinestore.service.impl;
 
+import com.example.onlinestore.converter.DeliveryConverter;
 import com.example.onlinestore.entity.Delivery;
+import com.example.onlinestore.model.DeliveryModel;
 import com.example.onlinestore.repository.DeliveryRepository;
 import com.example.onlinestore.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,12 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Autowired
     private DeliveryRepository deliveryRepository;
 
+    @Autowired
+    private DeliveryConverter deliveryConverter;
+
     @Override
-    public Delivery createDelivery(Delivery delivery) {
-        return deliveryRepository.save(delivery);
+    public Delivery createDelivery(DeliveryModel deliveryModel) {
+        return deliveryRepository.save(deliveryConverter.convertFromModel(deliveryModel));
     }
 
     @Override

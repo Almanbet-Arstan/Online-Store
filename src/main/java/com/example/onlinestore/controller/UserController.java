@@ -28,8 +28,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getById(@PathVariable Long id){
-        return userService.getById(id);
+    public ResponseMessage<User> getById(@PathVariable Long id){
+        return new ResponseMessage<User>().prepareSuccessMessage(userService.getById(id));
     }
 
     @PostMapping
@@ -40,14 +40,8 @@ public class UserController {
     @PostMapping("/sign-in")
     public ResponseMessage<String> getAuthHead(@RequestBody UserAuthModel userAuthModel){
         ResponseMessage<String> responseMessage = new ResponseMessage<>();
-        try {
-            String authHeader = userService.getBasicAuthHeaderByAuthModel(userAuthModel);
-            return responseMessage.prepareSuccessMessage(authHeader);
-        } catch (IllegalArgumentException e){
-            return responseMessage.prepareFailMessage(HttpStatus.BAD_REQUEST.value(), e.getMessage());
-        } catch (Exception e){
-            return responseMessage.prepareFailMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
-        }
+        String authHeader = userService.getBasicAuthHeaderByAuthModel(userAuthModel);
+        return responseMessage.prepareSuccessMessage(authHeader);
     }
 
     @PutMapping
