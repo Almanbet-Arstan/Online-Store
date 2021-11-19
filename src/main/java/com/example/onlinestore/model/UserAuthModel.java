@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UserAuthModel {
-    private String fullName;
+    private String login;
     private String password;
 }

@@ -11,8 +11,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class User extends BaseEntity{
 
-    @Column(name = "full_name")
-    private String fullName;
+    @Column(name = "login")
+    private String login;
 
     @Column(name = "password")
     private String password;

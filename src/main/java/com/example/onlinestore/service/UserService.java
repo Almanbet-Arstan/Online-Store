@@ -13,6 +13,6 @@ public interface UserService {
     User updateClient(User user);
     User deleteById(Long id);
     User getCurrentUser();
-    User getByFullName(String fullName);
+    User getByLogin(String login);
     String getBasicAuthHeaderByAuthModel(UserAuthModel userAuthModel);
 }

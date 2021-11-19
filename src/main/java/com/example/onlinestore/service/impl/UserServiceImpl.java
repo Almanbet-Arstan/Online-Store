@@ -1,14 +1,12 @@
 package com.example.onlinestore.service.impl;
 
-import antlr.StringUtils;
 import com.example.onlinestore.converter.UserConverter;
 import com.example.onlinestore.entity.User;
-import com.example.onlinestore.entity.UserRole;
+import com.example.onlinestore.exception.ApiErrorException;
 import com.example.onlinestore.exception.ApiFailException;
 import com.example.onlinestore.model.UserAuthModel;
 import com.example.onlinestore.model.UserModel;
 import com.example.onlinestore.repository.UserRepository;
-import com.example.onlinestore.repository.UserRoleRepository;
 import com.example.onlinestore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,7 +51,7 @@ public class UserServiceImpl implements UserService {
         User userForUpdate = getById(user.getId());
 
         if (user.getCreateDate() != null) userForUpdate.setCreateDate(user.getCreateDate());
-        if (user.getFullName() != null) userForUpdate.setFullName(user.getFullName());
+        if (user.getLogin() != null) userForUpdate.setLogin(user.getLogin());
         if (user.getPassword() != null) userForUpdate.setPassword(user.getPassword());
         if (user.getIsActive() != null) userForUpdate.setIsActive(user.getIsActive());
 
@@ -71,26 +69,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getCurrentUser() {
         String fullName = SecurityContextHolder.getContext().getAuthentication().getName();
-        return getByFullName(fullName);
+        return getByLogin(fullName);
     }
 
     @Override
-    public User getByFullName(String fullName) {
-        return userRepository.getByFullName(fullName).orElse(null);
+    public User getByLogin(String login) {
+        return userRepository.getByLogin(login).orElseThrow( () -> new ApiFailException("Не удалось найти пользователя по login: " + login));
     }
 
     @Override
     public String getBasicAuthHeaderByAuthModel(UserAuthModel userAuthModel) {
-        User user = userRepository.getByFullName(userAuthModel.getFullName())
-                .orElseThrow( () -> new IllegalArgumentException("Неверный логин или пароль"));
+        User user = userRepository.getByLogin(userAuthModel.getLogin())
+                .orElseThrow( () -> new ApiErrorException("Неверный логин или пароль"));
 
         String userEncodedPassword = user.getPassword();
 
         boolean isPasswordCorrect = passwordEncoder.matches(userAuthModel.getPassword(), userEncodedPassword);
 
-        if (!isPasswordCorrect) throw  new IllegalArgumentException("Неверный логин или пароль");
+        if (!isPasswordCorrect) throw  new ApiErrorException("Неверный логин или пароль");
 
-        String fullNamePasswordPair = userAuthModel.getFullName() + ":" + userAuthModel.getPassword();
+        String fullNamePasswordPair = userAuthModel.getLogin() + ":" + userAuthModel.getPassword();
 
         String authHeader = new String(Base64.getEncoder().encode(fullNamePasswordPair.getBytes()));
 

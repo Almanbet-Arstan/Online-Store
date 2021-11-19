@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> getByFullName(String fullName);
-    Optional<User> findByFullNameAndPassword(String fullName, String password);
+    Optional<User> getByLogin(String login);
+    Optional<User> findByLoginAndPassword(String login, String password);
 }

@@ -14,7 +14,7 @@ public class UserConverter extends BaseConverter<UserModel, User>{
     private static UserModel convertToModel(User entityToConvert){
         if (entityToConvert == null) return null;
         return UserModel.builder()
-                .fullName(entityToConvert.getFullName())
+                .login(entityToConvert.getLogin())
                 .password(entityToConvert.getPassword())
                 .isActive(entityToConvert.getIsActive())
                 .userRoleId(entityToConvert.getUserRole().getId())
@@ -26,7 +26,7 @@ public class UserConverter extends BaseConverter<UserModel, User>{
 
         User userToReturn = new User();
 
-        userToReturn.setFullName(modelToConvert.getFullName());
+        userToReturn.setLogin(modelToConvert.getLogin());
         userToReturn.setPassword(modelToConvert.getPassword());
         userToReturn.setIsActive(modelToConvert.getIsActive());
         UserRole userRole = new UserRole();
