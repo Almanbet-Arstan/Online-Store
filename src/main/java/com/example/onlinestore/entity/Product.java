@@ -15,4 +15,8 @@ import javax.persistence.*;
 public class Product extends BaseEntity{
     private String name;
     private Integer price;
+
+    @ManyToOne
+    @JoinColumn(name = "image_id")
+    private Image image;
 }

@@ -80,13 +80,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getBasicAuthHeaderByAuthModel(UserAuthModel userAuthModel) {
         User user = userRepository.getByLogin(userAuthModel.getLogin())
-                .orElseThrow( () -> new ApiErrorException("Неверный логин или пароль"));
+                .orElseThrow( () -> new ApiFailException("Неверный логин или пароль"));
 
         String userEncodedPassword = user.getPassword();
 
         boolean isPasswordCorrect = passwordEncoder.matches(userAuthModel.getPassword(), userEncodedPassword);
 
-        if (!isPasswordCorrect) throw  new ApiErrorException("Неверный логин или пароль");
+        if (!isPasswordCorrect) throw  new ApiFailException("Неверный логин или пароль");
 
         String fullNamePasswordPair = userAuthModel.getLogin() + ":" + userAuthModel.getPassword();
 

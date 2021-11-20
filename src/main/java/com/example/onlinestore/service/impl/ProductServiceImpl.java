@@ -1,6 +1,8 @@
 package com.example.onlinestore.service.impl;
 
+import com.example.onlinestore.converter.ProductConverter;
 import com.example.onlinestore.entity.Product;
+import com.example.onlinestore.model.ProductModel;
 import com.example.onlinestore.repository.ProductRepository;
 import com.example.onlinestore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ProductConverter productConverter;
+
     @Override
-    public Product createProduct(Product product) {
-        return productRepository.save(product);
+    public Product createProduct(ProductModel productModel) {
+        return productRepository.save(productConverter.convertFromModel(productModel));
     }
 
     @Override
@@ -35,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
         if (product.getCreateDate() != null) productForUpdate.setCreateDate(product.getCreateDate());
         if (product.getName() != null) productForUpdate.setName(product.getName());
         if (product.getPrice() != null) productForUpdate.setPrice(product.getPrice());
+        if (product.getImage() != null) productForUpdate.setImage(product.getImage());
 
         return productRepository.save(productForUpdate);
     }
