@@ -1,7 +1,9 @@
 package com.example.onlinestore.controller;
 
 import com.example.onlinestore.entity.Delivery;
+import com.example.onlinestore.entity.User;
 import com.example.onlinestore.model.DeliveryModel;
+import com.example.onlinestore.model.ResponseMessage;
 import com.example.onlinestore.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +27,8 @@ public class DeliveryController {
     }
 
     @PostMapping
-    public Delivery createDelivery(@RequestBody DeliveryModel deliveryModel){
-        return deliveryService.createDelivery(deliveryModel);
+    public ResponseMessage<Delivery> createDelivery(@RequestBody DeliveryModel deliveryModel){
+        return new ResponseMessage<Delivery>().prepareSuccessMessage(deliveryService.createDelivery(deliveryModel));
     }
 
     @PutMapping

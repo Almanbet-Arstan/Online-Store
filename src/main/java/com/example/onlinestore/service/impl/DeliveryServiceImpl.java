@@ -2,6 +2,7 @@ package com.example.onlinestore.service.impl;
 
 import com.example.onlinestore.converter.DeliveryConverter;
 import com.example.onlinestore.entity.Delivery;
+import com.example.onlinestore.exception.ApiFailException;
 import com.example.onlinestore.model.DeliveryModel;
 import com.example.onlinestore.repository.DeliveryRepository;
 import com.example.onlinestore.service.DeliveryService;
@@ -20,7 +21,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public Delivery createDelivery(DeliveryModel deliveryModel) {
-        return deliveryRepository.save(deliveryConverter.convertFromModel(deliveryModel));
+        if (deliveryRepository.findByOrderId(deliveryModel.getOrderId()).isPresent()){
+            throw new ApiFailException("Доставка уже оформлена на этот заказ");
+        }else return deliveryRepository.save(deliveryConverter.convertFromModel(deliveryModel));
     }
 
     @Override
